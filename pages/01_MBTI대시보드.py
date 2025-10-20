@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.colors as pc
 
 # 페이지 설정
 st.set_page_config(page_title="MBTI by Country", layout="wide")
@@ -27,8 +28,9 @@ country_df = pd.DataFrame({
     "Percentage": country_data.values
 }).sort_values("Percentage", ascending=False)
 
-# 색상 처리: 1등은 빨간색, 나머지는 그라데이션
-colors = ["#ff4b4b"] + [px.colors.sequential.Blues[i] for i in range(1, len(country_df))]
+# 색상 처리: 1등은 빨간색, 나머지는 파랑 그라데이션
+blue_scale = pc.sample_colorscale("Blues", [i / (len(country_df)-1) for i in range(len(country_df)-1)])
+colors = ["#ff4b4b"] + blue_scale
 
 # 그래프 그리기
 fig = px.bar(
